@@ -14,6 +14,12 @@ Little attantion has been paid to the design of the wrapper. Assume a general
 reference implementation. Of note, deduce the function call (as `str`) from the
 wrapper function[^1].
 
+To facilitate system instrumentation, create a class as a single point of
+entry. Class should be configurable. Use an injectable model (GoF [Strategy pattern](https://www.gofpatterns.com/behavioral/patterns/strategy-pattern.php))
+for, "resolution," of function names to useful actions. See reference Python
+implementations of the Strategy pattern [here](https://www.geeksforgeeks.org/strategy-method-python-design-patterns/) and [here](https://www.giacomodebidda.com/posts/strategy-pattern-in-python/).
+
+
 # Additional Notes
 
 Some more miscallanea.
