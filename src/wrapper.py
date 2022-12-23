@@ -39,10 +39,7 @@ class PocInstrumentation:
             return
         return [parser.parse_fn(fn) for parser in cls._fn_parsers]
 
-    # This should have a decorator like @staticmethod but convention doesn't
-    # seem to warrant that and it seems to work perfectly fine as a static
-    # method without.
-    def fn_inst(f):
+    def fn_inst(_, f):
         @wraps(f)
         def wrapper(*args, **kwargs):
             called_name: str = f.__name__
