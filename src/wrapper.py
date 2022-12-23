@@ -22,12 +22,27 @@ class FnCall(NamedTuple):
     parsed: List[ParsedFn]
     started: float
     ended: float
+    run_time: float
     result: object
     unique_id: uuid.UUID = uuid.uuid4()
 
 class PocInstrumentation:
 
     _fn_parsers: List[FunctionParser] = []
+    _zero_time: float
+
+    def __init__(self):
+        self.benchmark_zero_time()
+
+    def benchmark_zero_time(self):
+        def do_nothing() -> int:
+            return 0;
+        started = time.perf_counter()
+        zero = do_nothing()
+        ended = time.perf_counter()
+        if zero != 0:
+            raise RuntimeError("zero-time result mismatch")
+        self._zero_time = ended - started
 
     @classmethod
     def add_parser(cls, parser: FunctionParser) -> None:
@@ -39,7 +54,7 @@ class PocInstrumentation:
             return
         return [parser.parse_fn(fn) for parser in cls._fn_parsers]
 
-    def fn_inst(_, f):
+    def fn_inst(self, f):
         @wraps(f)
         def wrapper(*args, **kwargs):
             called_name: str = f.__name__
@@ -53,6 +68,7 @@ class PocInstrumentation:
                 PocInstrumentation._execute_parsers(called_name),
                 started,
                 ended,
+                ended - started - self._zero_time,
                 result
             )
             print(f"+ FN: {call}")
