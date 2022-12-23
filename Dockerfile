@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM python:3.7-slim
 
 RUN apt update && apt install -y curl
 RUN curl -sL https://deb.nodesource.com/setup_16.x -o /tmp/nodesource_setup.sh
@@ -15,11 +15,11 @@ RUN apt update && apt install -y locales locales-all
 
 WORKDIR /usr/src/app
 
-RUN pip install --root-user-action=ignore --upgrade pip
+RUN pip install --upgrade pip
 
 COPY ./requirements.txt ./requirements.txt
 
-RUN pip install --root-user-action=ignore -r requirements.txt
+RUN pip install -r requirements.txt
 
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8

@@ -21,3 +21,10 @@ Some more miscallanea.
 ## Feature Requests
 
 - Inspect the arguments provided and add value to the information given there.
+
+## Devops Log
+
+|&nbsp;|&nbsp;
+|---|---
+|**2022-12-23 08:30**| Docker artifacts were copied from the repository [`stephansamuel/poc-python-scripts`](https://github.com/stephansamuel/poc-python-scripts) and seemed to run generally well through base steps. Changed Python version, tag was `3.11-slim`, made it `3.7-slim`,  corresponding to `3.7.16 buster slim`, which more closely resembles target environment. Work stopped at `pip` upgrade. Removed `--root-user-action=ignore` from all `pip` directives, this doesn't seem to be supported on the lower version. Lower version also doesn't complain about running `pip` as `root` so this should be a good permanent fix to this. `docker-compose build` ran through otherwise. `up` runs, `nodemon` harness correctly facilitates CD process.
+
