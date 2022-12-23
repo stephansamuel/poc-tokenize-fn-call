@@ -11,3 +11,4 @@ def i_am_a_function(a: str, b: str = None) -> str:
 
 if __name__ == "__main__":
     i_am_a_function("a_val", b="b_val")
+    print(f"- benchmarked zero time: {inst.zero_time}")

@@ -29,7 +29,7 @@ class FnCall(NamedTuple):
 class PocInstrumentation:
 
     _fn_parsers: List[FunctionParser] = []
-    _zero_time: float
+    zero_time: float
 
     def __init__(self):
         self.benchmark_zero_time()
@@ -42,7 +42,7 @@ class PocInstrumentation:
         ended = time.perf_counter()
         if zero != 0:
             raise RuntimeError("zero-time result mismatch")
-        self._zero_time = ended - started
+        self.zero_time = ended - started
 
     @classmethod
     def add_parser(cls, parser: FunctionParser) -> None:
@@ -68,7 +68,7 @@ class PocInstrumentation:
                 PocInstrumentation._execute_parsers(called_name),
                 started,
                 ended,
-                ended - started - self._zero_time,
+                ended - started - self.zero_time,
                 result
             )
             print(f"+ FN: {call}")
