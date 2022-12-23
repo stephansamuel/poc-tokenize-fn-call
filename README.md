@@ -18,7 +18,7 @@ To facilitate system instrumentation, create a class as a single point of
 entry. Class should be configurable. Use an injectable model (GoF [Strategy pattern](https://www.gofpatterns.com/behavioral/patterns/strategy-pattern.php))
 for, "resolution," of function names to useful actions. See reference Python
 implementations of the Strategy pattern [here](https://www.geeksforgeeks.org/strategy-method-python-design-patterns/) and [here](https://www.giacomodebidda.com/posts/strategy-pattern-in-python/)[^2].
-Use `ABC` with subclasses for parsers.
+Use `ABC` with subclasses for parsers[^3].
 
 
 # Additional Notes
@@ -62,3 +62,7 @@ would seem to suggest that one could do something like:
     and a feature request has been added (above) to better type this list
     later. This will probably be done using a [generic type](https://textbooks.cs.ksu.edu/cc410/iii-web/20-extras/03-python-generics/)
     tree.
+[^3]: The implementation as it stands wraps and instruments _a function
+      definition,_ as opposed to _a function call._ This _may_ be correct and
+      useful _if_ all concerned calls are wrapped in functional blocks.
+
