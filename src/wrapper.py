@@ -17,12 +17,12 @@ class FunctionParser:
 class FnCall(NamedTuple):
     #context: str
     call: str
-    #args: List[object]
-    #kwargs: Dict[str, object]
+    args: List[object]
+    kwargs: Dict[str, object]
     parsed: List[ParsedFn]
     #started: time
     #ended: time
-    #result: object
+    result: object
     unique_id: uuid.UUID = uuid.uuid4()
 
 class PocInstrumentation:
@@ -49,10 +49,10 @@ class PocInstrumentation:
             result = f(*args, **kwargs)
             call = FnCall(
                 called_name,
-                #args,
-                #kwargs,
-                PocInstrumentation._execute_parsers(called_name)
-                #result
+                args,
+                kwargs,
+                PocInstrumentation._execute_parsers(called_name),
+                result
             )
             print(f"+ FN: {call}")
             return result
