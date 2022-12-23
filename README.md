@@ -17,7 +17,8 @@ wrapper function[^1].
 To facilitate system instrumentation, create a class as a single point of
 entry. Class should be configurable. Use an injectable model (GoF [Strategy pattern](https://www.gofpatterns.com/behavioral/patterns/strategy-pattern.php))
 for, "resolution," of function names to useful actions. See reference Python
-implementations of the Strategy pattern [here](https://www.geeksforgeeks.org/strategy-method-python-design-patterns/) and [here](https://www.giacomodebidda.com/posts/strategy-pattern-in-python/).
+implementations of the Strategy pattern [here](https://www.geeksforgeeks.org/strategy-method-python-design-patterns/) and [here](https://www.giacomodebidda.com/posts/strategy-pattern-in-python/)[^2].
+Use `ABC` with subclasses for parsers.
 
 
 # Additional Notes
@@ -27,6 +28,8 @@ Some more miscallanea.
 ## Feature Requests
 
 - Inspect the arguments provided and add value to the information given there.
+- Strongly type the list of calls in the main instrumention holder class.
+  Consider also using perhaps a `Sequence` or other better type.
 
 ## Devops Log
 
@@ -39,5 +42,23 @@ Some more miscallanea.
 
 ## Implementation
 
-[^1]: given a passed arg of `callable`, the name (`str`) of the function can be
+[^1]: Given a passed arg of `callable`, the name (`str`) of the function can be
 deduced automatically using the `__name__` property.
+[^2]: During implementation of `PocInstrumentation` with typed class attribute,
+`_fn_parsers` (as a list of `FunctionParser`), the method to declare a
+truly-typed (?) Python list was an issue. The declaration for `Vector` in the
+first code example [here](https://docs.python.org/3.7/library/typing.html#type-aliases)
+would seem to suggest that one could do something like:
+      ```python
+      _fn_parsers = List[FunctionParser]
+      ```
+    however this doesn't work. This, in fact raises an exception, `TypeError:
+    Parameters to generic types must be types. Got 0.`, with an elusive
+    reference in the code. That is, in fact declaring a type object that one
+    would use later. The reference implementation stands as:
+      ```python
+      _fn_parsers: List[FunctionParser] = []
+      ```
+    and a feature request has been added (above) to better type this list
+    later. This will probably be done using a [generic type](https://textbooks.cs.ksu.edu/cc410/iii-web/20-extras/03-python-generics/)
+    tree.
