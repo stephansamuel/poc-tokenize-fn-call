@@ -22,9 +22,8 @@ implementations of the Strategy pattern [here](https://www.geeksforgeeks.org/str
 Add a timing facility. Benchmark zero-time (`pass` instruction) timing and
 provide an adjusted result.
 
-Use `ABC` with subclasses for parsers[^3] and conceptually refactor as
-_decorators,_ rather than _parsers._
-
+Given a function _name,_ find that function then enumerate the calls _within_
+that function[^3].
 
 # Additional Notes
 
@@ -35,6 +34,8 @@ Some more miscallanea.
 - Inspect the arguments provided and add value to the information given there.
 - Strongly type the list of calls in the main instrumention holder class.
   Consider also using perhaps a `Sequence` or other better type.
+- Use `ABC` with subclasses for parsers[^4].
+- Conceptually refactor as _decorators,_ rather than _parsers._
 
 ## Devops Log
 
@@ -57,17 +58,19 @@ would seem to suggest that one could do something like:
       ```python
       _fn_parsers = List[FunctionParser]
       ```
-    however this doesn't work. This, in fact raises an exception, `TypeError:
-    Parameters to generic types must be types. Got 0.`, with an elusive
-    reference in the code. That is, in fact declaring a type object that one
-    would use later. The reference implementation stands as:
+      however this doesn't work. This, in fact raises an exception, `TypeError:
+      Parameters to generic types must be types. Got 0.`, with an elusive
+      reference in the code. That is, in fact declaring a type object that one
+      would use later. The reference implementation stands as:
       ```python
       _fn_parsers: List[FunctionParser] = []
       ```
-    and a feature request has been added (above) to better type this list
-    later. This will probably be done using a [generic type](https://textbooks.cs.ksu.edu/cc410/iii-web/20-extras/03-python-generics/)
-    tree.
-[^3]: The implementation as it stands wraps and instruments _a function
+      and a feature request has been added (above) to better type this list
+      later. This will probably be done using a [generic type](https://textbooks.cs.ksu.edu/cc410/iii-web/20-extras/03-python-generics/)
+      tree.
+[^3]: Note that the function is likely not defined in the same module as the
+      code that does this inspection. This will likely require some magic
+      involving the global name table.
+[^4]: The implementation as it stands wraps and instruments _a function
       definition,_ as opposed to _a function call._ This _may_ be correct and
       useful _if_ all concerned calls are wrapped in functional blocks.
-
