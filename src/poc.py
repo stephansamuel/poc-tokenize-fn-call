@@ -1,6 +1,6 @@
 import wrapper
 
-@wrapper.poc_instrumentation_wrapper
+@wrapper.PocInstrumentation.fn_inst
 def i_am_a_function():
     print("Hello, world!")
     pass
