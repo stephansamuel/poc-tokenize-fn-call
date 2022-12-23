@@ -18,7 +18,8 @@ To facilitate system instrumentation, create a class as a single point of
 entry. Class should be configurable. Use an injectable model (GoF [Strategy pattern](https://www.gofpatterns.com/behavioral/patterns/strategy-pattern.php))
 for, "resolution," of function names to useful actions. See reference Python
 implementations of the Strategy pattern [here](https://www.geeksforgeeks.org/strategy-method-python-design-patterns/) and [here](https://www.giacomodebidda.com/posts/strategy-pattern-in-python/)[^2].
-Use `ABC` with subclasses for parsers[^3].
+Use `ABC` with subclasses for parsers[^3] and conceptually refactor as
+_decorators,_ rather than _parsers._
 
 
 # Additional Notes
