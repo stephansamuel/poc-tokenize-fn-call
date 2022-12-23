@@ -6,7 +6,7 @@ import uuid
 class ParsedFn(NamedTuple):
     called: str
     tokenized: object = None
-    #parse_args: callable = None
+    parse_args: callable = None
 
 class FunctionParser:
     
