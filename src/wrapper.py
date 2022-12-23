@@ -1,5 +1,5 @@
-#from datetime import time
 from functools import wraps
+import time
 from typing import List, Dict, NamedTuple
 import uuid
 
@@ -20,8 +20,8 @@ class FnCall(NamedTuple):
     args: List[object]
     kwargs: Dict[str, object]
     parsed: List[ParsedFn]
-    #started: time
-    #ended: time
+    started: float
+    ended: float
     result: object
     unique_id: uuid.UUID = uuid.uuid4()
 
@@ -43,12 +43,16 @@ class PocInstrumentation:
         @wraps(f)
         def wrapper(*args, **kwargs):
             called_name: str = f.__name__
+            started = time.perf_counter()
             result = f(*args, **kwargs)
+            ended = time.perf_counter()
             call = FnCall(
                 called_name,
                 args,
                 kwargs,
                 PocInstrumentation._execute_parsers(called_name),
+                started,
+                ended,
                 result
             )
             print(f"+ FN: {call}")

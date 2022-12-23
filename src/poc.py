@@ -1,7 +1,7 @@
 import wrapper
 
 inst = wrapper.PocInstrumentation()
-inst.add_parser(wrapper.FunctionParser())
+wrapper.PocInstrumentation.add_parser(wrapper.FunctionParser())
 
 @inst.fn_inst
 def i_am_a_function(a: str, b: str = None) -> str:
