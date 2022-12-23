@@ -1,10 +1,12 @@
+#from datetime import time
 from functools import wraps
-from typing import List, NamedTuple
+from typing import List, Dict, NamedTuple
+import uuid
 
 class ParsedFn(NamedTuple):
     called: str
     tokenized: object = None
-    parse_args: callable = None
+    #parse_args: callable = None
 
 class FunctionParser:
     
@@ -12,14 +14,21 @@ class FunctionParser:
         # This is a degenerate implementation; subclass.
         return ParsedFn(name)
 
+class FnCall(NamedTuple):
+    #context: str
+    call: str
+    #args: List[object]
+    #kwargs: Dict[str, object]
+    parsed: List[ParsedFn]
+    #started: time
+    #ended: time
+    #result: object
+    unique_id: uuid.UUID = uuid.uuid4()
+
 class PocInstrumentation:
 
-    _fn_parsers: List[FunctionParser]
+    _fn_parsers: List[FunctionParser] = []
 
-    def __init__(self):
-        if not self._fn_parsers:
-            self._fn_parsers = []
-    
     @classmethod
     def add_parser(cls, parser: FunctionParser) -> None:
         cls._fn_parsers.append(parser)
@@ -37,9 +46,15 @@ class PocInstrumentation:
         @wraps(f)
         def wrapper(*args, **kwargs):
             called_name: str = f.__name__
-            print(f"+ FN: {called_name}")
             result = f(*args, **kwargs)
-            print(f"- result: {result}")
+            call = FnCall(
+                called_name,
+                #args,
+                #kwargs,
+                PocInstrumentation._execute_parsers(called_name)
+                #result
+            )
+            print(f"+ FN: {call}")
             return result
         return wrapper
 
